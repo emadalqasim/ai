@@ -1,79 +1,93 @@
-﻿// **هذا هو رابط الـ Webhook الخاص بك الذي يجب أن يكون صحيحاً**
-const webhookUrl = 'https://n8n.srv984382.hstgr.cloud/webhook/596cf419-d403-4008-bc7e-0a13cd97ac08/chat';
+﻿// **تأكد من تحديث هذا الرابط بالرابط الخاص بك**
+const YOUR_WEBHOOK_URL = 'https://n8n.srv984382.hstgr.cloud/webhook/596cf419-d403-4008-bc7e-0a13cd97ac08/chat';
 
 const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 
-// دالة مساعدة لإضافة الرسائل
-function appendMessage(content, type, isThinking = false) {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message', type);
-    if (isThinking) {
-        messageElement.classList.add('bot-thinking');
-    }
-
-    // هنا يجب أن تتعامل مع تنسيق الـ Markdown إذا كان n8n يرد به
-    // لكن للافتراض، نستخدم فقرة بسيطة
-    messageElement.innerHTML = `<p>${content}</p>`; 
-
-    chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight; // التمرير لأسفل
-    return messageElement;
-}
-
-async function sendMessage() {
-    const message = userInput.value.trim();
-    if (!message) return;
-
-    // 1. عرض رسالة المستخدم وإفراغ حقل الإدخال
-    appendMessage(message, 'outgoing');
-    userInput.value = '';
-    userInput.style.height = 'auto'; // إعادة ضبط حجم textarea
-
-    // 2. عرض رسالة الانتظار
-    const thinkingMessageContent = '...جاري كتابة الرد';
-    const thinkingElement = appendMessage(thinkingMessageContent, 'incoming', true);
-    
-    try {
-        // 3. إرسال الطلب إلى n8n Webhook
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // تأكد أن n8n الخاص بك يستقبل البيانات بهذا الشكل: { "message": "رسالة المستخدم" }
-            body: JSON.stringify({ message: message }) 
-        });
-
-        const data = await response.json();
-        
-        // 4. استخراج الرد
-        // يجب أن تتأكد من اسم الحقل الذي يرسله n8n في الـ JSON (افتراضياً: 'response')
-        const botResponse = data.response || data.text || "عفواً، لم أتمكن من فهم الرد من الخادم (تحقق من n8n)."; 
-        
-        // 5. تحديث رسالة الانتظار بالرد الفعلي
-        thinkingElement.querySelector('p').innerHTML = botResponse;
-        thinkingElement.classList.remove('bot-thinking');
-
-    } catch (error) {
-        console.error('Fetch Error:', error);
-        
-        // عرض رسالة خطأ
-        thinkingElement.querySelector('p').innerHTML = "آسف، حدث خطأ في الاتصال بالخادم. حاول مجدداً.";
-        thinkingElement.classList.remove('bot-thinking');
-        thinkingElement.style.backgroundColor = '#FFDADA'; // لون يدل على الخطأ
-        thinkingElement.style.color = '#CC0000'; 
-    }
-}
-
-// الاستماع للنقر على زر الإرسال
 sendButton.addEventListener('click', sendMessage);
-
-// الاستماع للضغط على Enter (بدون Shift)
-userInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault(); 
+userInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
         sendMessage();
     }
 });
+
+/**
+ * دالة لإضافة رسالة إلى صندوق الدردشة
+ * @param {string} message - نص الرسالة
+ * @param {string} sender - نوع المرسل ('user' أو 'bot')
+ */
+function appendMessage(message, sender) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', `${sender}-message`);
+    messageElement.innerHTML = `<p>${message}</p>`;
+    chatBox.appendChild(messageElement);
+
+    // التمرير التلقائي لأسفل الشات لعرض الرسالة الجديدة
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+/**
+ * دالة لإرسال الرسالة إلى الويب هوك والحصول على الرد
+ */
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === '') return;
+
+    // 1. عرض رسالة المستخدم
+    appendMessage(message, 'user');
+    userInput.value = ''; // مسح حقل الإدخال
+
+    // 2. عرض رسالة 'جاري الكتابة...'
+    const typingMessage = document.createElement('div');
+    typingMessage.classList.add('message', 'bot-message');
+    typingMessage.id = 'typing-indicator';
+    typingMessage.innerHTML = `<p><i class="fas fa-spinner fa-spin"></i> جاري الكتابة...</p>`;
+    chatBox.appendChild(typingMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        // 3. إرسال طلب POST إلى الويب هوك
+        const response = await fetch(YOUR_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                // تأكد من أن هذا يتوافق مع المدخل الذي يتوقعه الـ n8n Webhook الخاص بك
+                chatInput: message
+            })
+        });
+
+        // 4. إزالة مؤشر 'جاري الكتابة...'
+        typingMessage.remove();
+
+        if (!response.ok) {
+            throw new Error(`خطأ في استجابة الشبكة: ${response.status}`);
+        }
+
+        const data = await response.json();
+        let botResponse = 'عذراً، حدث خطأ أثناء معالجة رسالتك.';
+
+        // **تعديل هذا الجزء وفقاً لهيكلية الرد من الـ n8n workflow الخاص بك**
+        // افتراضياً، يتوقع أن يكون الرد في حقل اسمه 'output'
+        if (data && data.output) {
+            botResponse = data.output;
+        } else if (data && typeof data.text === 'string') {
+             // قد يكون الرد بتنسيق آخر
+            botResponse = data.text;
+        }
+
+        // 5. عرض رد البوت
+        appendMessage(botResponse, 'bot');
+
+    } catch (error) {
+        console.error('حدث خطأ:', error);
+        
+        // إزالة مؤشر 'جاري الكتابة...' في حال حدوث خطأ
+        const errorIndicator = document.getElementById('typing-indicator');
+        if (errorIndicator) errorIndicator.remove();
+        
+        appendMessage('عذراً، حدث خطأ في الاتصال بالخادم. برجاء المحاولة لاحقاً.', 'bot');
+    }
+}
