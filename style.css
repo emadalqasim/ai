@@ -1,242 +1,126 @@
-﻿/* --- المتغيرات والألوان (Neumorphism Palette) --- */
-:root {
-    --bg-color: #E0E5EC; /* الخلفية الرئيسية الناعمة */
-    --main-color: #6C7BFF; /* أزرق سماوي ناعم للـ Accent */
-    --main-color-hover: #5560E5; 
-    --light-shadow: #ffffff; /* ظل فاتح (للإضاءة) */
-    --dark-shadow: #A3B1C6; /* ظل داكن (للعمق) */
-    --text-color: #333;
-    --sub-text-color: #666;
-    --user-bubble: #6C7BFF; 
-    --bot-bubble: #ffffff; 
-}
-
-/* --- إعادة تعيين أساسية وخطوط --- */
-*, *::before, *::after {
+﻿/* أساسيات إعادة الضبط */
+* {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Tajawal', sans-serif;
-    background-color: var(--bg-color);
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7; /* خلفية فاتحة تشبه ChatGPT */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    direction: rtl; 
-    text-align: right;
-    color: var(--text-color);
-    overflow: hidden; 
+    padding: 20px;
 }
 
-/* --- الغلاف الرئيسي وتأثير النيومورفيك --- */
-.chat-wrapper {
+/* حاوية الشات الرئيسية */
+.chat-container {
     width: 100%;
-    max-width: 420px; /* أقصى عرض للجوال */
-    height: 95vh;
-    max-height: 780px;
-    background-color: var(--bg-color);
-    border-radius: 25px;
-    /* ظل النيومورفيك (soft, convex effect) */
-    box-shadow: 8px 8px 16px var(--dark-shadow), -8px -8px 16px var(--light-shadow);
+    max-width: 800px; /* حجم أقصى مناسب للكمبيوتر */
+    height: 90vh; /* ارتفاع الشات */
+    max-height: 900px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    position: relative;
-    transition: all 0.4s ease-in-out;
 }
 
-/* تصميم متجاوب (Mobile First) */
-@media (max-width: 600px) {
-    .chat-wrapper {
-        width: 100%;
-        height: 100vh;
-        max-height: unset;
-        border-radius: 0;
-        box-shadow: none; /* إزالة الظل على شاشة الهاتف بالكامل */
-    }
-}
-
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%; 
-}
-
-/* --- رأس الشات --- */
+/* رأس الشات */
 .chat-header {
-    background-color: var(--bg-color);
-    color: var(--main-color);
-    padding: 15px 20px;
+    padding: 15px;
+    background-color: #0b0c0f; /* لون غامق للرأس */
+    color: #ffffff;
     text-align: center;
-    border-bottom: 1px solid var(--dark-shadow); /* فصل بسيط */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    border-bottom: 1px solid #eee;
 }
 
-.chat-header h3 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1.2em;
-}
-
-.header-icon {
-    font-size: 1.4em;
-}
-
-/* --- صندوق المحادثات --- */
+/* منطقة عرض الرسائل */
 .chat-box {
     flex-grow: 1;
-    padding: 15px 10px;
-    overflow-y: auto;
-    background-color: var(--bg-color); 
-    scroll-behavior: smooth; 
+    padding: 20px;
+    overflow-y: auto; /* لجعل الرسائل قابلة للتمرير */
+    background-color: #ffffff;
 }
 
-/* --- فقاعات الرسائل (Bubbles) --- */
+/* تنسيق الرسائل */
 .message {
-    margin-bottom: 12px;
-    max-width: 85%;
-    padding: 12px 18px;
-    border-radius: 18px;
-    line-height: 1.5;
-    word-wrap: break-word;
-    /* ظل ناعم للفقاعات */
-    box-shadow: 3px 3px 6px #B8C2CC, -3px -3px 6px #FFFFFF;
-    animation: slideIn 0.3s ease-out forwards; /* تأثير دخول أجمل */
-}
-
-.message p {
-    margin: 0;
-    font-size: 0.9em;
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    line-height: 1.6;
 }
 
 .user-message {
-    background-color: var(--user-bubble);
-    color: var(--light-shadow); /* نص فاتح على خلفية ملونة */
-    margin-right: auto;
-    border-bottom-right-radius: 4px;
+    background-color: #4CAF50; /* لون رسائل المستخدم */
+    color: white;
+    margin-left: auto; /* لترتيب رسائل المستخدم على اليسار في التصميم العربي */
 }
 
 .bot-message {
-    background-color: var(--bot-bubble);
-    color: var(--text-color);
-    margin-left: auto; 
-    border-bottom-left-radius: 4px;
+    background-color: #f0f0f0; /* لون رسائل البوت */
+    color: #333;
+    margin-right: auto; /* لترتيب رسائل البوت على اليمين في التصميم العربي */
 }
 
-/* أنيميشن دخول الرسالة */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* --- مؤشر الكتابة (Typing Indicator) --- */
-.typing-indicator {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    margin-left: auto; 
-    width: 70px;
-    background-color: var(--bot-bubble);
-    border-radius: 18px;
-    border-bottom-left-radius: 4px;
-    box-shadow: 3px 3px 6px #B8C2CC, -3px -3px 6px #FFFFFF;
-    opacity: 0; 
-    transition: opacity 0.3s ease-in-out;
-}
-
-.typing-indicator.visible {
-    opacity: 1;
-}
-
-.typing-indicator .dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--sub-text-color);
-    border-radius: 50%;
-    margin: 0 2px;
-    animation: dotBounce 1.2s infinite ease-in-out;
-}
-
-.typing-indicator .dot:nth-child(2) { animation-delay: -0.4s; }
-.typing-indicator .dot:nth-child(3) { animation-delay: -0.8s; }
-
-@keyframes dotBounce {
-    0%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-4px);
-    }
-}
-
-/* --- منطقة إدخال الشات (Input Area) --- */
-.chat-input-area {
+/* حقل الإدخال */
+.chat-input {
     display: flex;
     padding: 15px;
-    background-color: var(--bg-color);
-    gap: 10px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+    gap: 10px; /* مسافة بين العناصر */
 }
 
-/* تأثير النيومورفيك لحقل الإدخال (مقعر - Concave) */
-.chat-input-area input[type="text"] {
+#user-input {
     flex-grow: 1;
-    padding: 12px 18px;
-    border: none;
-    border-radius: 25px;
-    font-size: 1.0em;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* شكل بيضاوي مثل شات جي بي تي */
+    font-size: 16px;
     outline: none;
-    background-color: var(--bg-color);
-    /* الظل المقعر */
-    box-shadow: inset 5px 5px 10px var(--dark-shadow), inset -5px -5px 10px var(--light-shadow);
-    transition: box-shadow 0.3s;
+    transition: border-color 0.3s;
 }
 
-.chat-input-area input[type="text"]:focus {
-    /* زيادة العمق عند التركيز */
-    box-shadow: inset 3px 3px 6px var(--dark-shadow), inset -3px -3px 6px var(--light-shadow);
+#user-input:focus {
+    border-color: #4CAF50;
 }
 
-/* زر الإرسال النيومورفيك (محدب - Convex) */
-.neumorphic-btn {
-    background-color: var(--bg-color);
-    color: var(--main-color);
+#send-button {
+    padding: 12px 20px;
     border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 1.1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* الظل المحدب */
-    box-shadow: 5px 5px 10px var(--dark-shadow), -5px -5px 10px var(--light-shadow);
-    transition: all 0.2s ease-out;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
 }
 
-/* تفاعل الضغط (جعل الزر يبدو مضغوطاً/مقعراً) */
-.neumorphic-btn:active {
-    background-color: var(--main-color-hover);
-    color: var(--light-shadow);
-    /* عكس الظل ليصبح مقعراً */
-    box-shadow: inset 3px 3px 6px var(--dark-shadow), inset -3px -3px 6px var(--light-shadow);
-    transform: scale(0.95);
+#send-button:hover {
+    background-color: #45a049;
 }
 
-.neumorphic-btn:disabled {
-    color: #ccc;
-    cursor: not-allowed;
-    box-shadow: 3px 3px 6px var(--dark-shadow), -3px -3px 6px var(--light-shadow);
+#send-button:active {
+    transform: scale(0.98);
+}
+
+/* التجاوب (Media Queries) */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    body {
+        padding: 0;
+    }
 }
