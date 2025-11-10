@@ -1,0 +1,122 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #f8f9fa;
+    --user-bubble: #dcf8c6;
+    --bot-bubble: #ffffff;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9ebee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    direction: rtl; /* لدعم اللغة العربية */
+    text-align: right;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 450px;
+    height: 80vh;
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* --- رأس الشات --- */
+.chat-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+/* --- صندوق المحادثات --- */
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+}
+
+.chat-box::-webkit-scrollbar {
+    width: 5px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* --- فقاعات الرسائل --- */
+.message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+.user-message {
+    background-color: var(--user-bubble);
+    margin-left: auto; /* لدفع رسالة المستخدم إلى اليسار (اليمين في اتجاه RTL) */
+    border-bottom-left-radius: 0;
+}
+
+.bot-message {
+    background-color: var(--bot-bubble);
+    margin-right: auto; /* لدفع رسالة البوت إلى اليمين (اليسار في اتجاه RTL) */
+    border-bottom-right-radius: 0;
+}
+
+.message p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* --- إدخال الشات --- */
+.chat-input {
+    display: flex;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-left: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.chat-input input[type="text"]:focus {
+    border-color: var(--primary-color);
+}
+
+.chat-input button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+    background-color: #0056b3;
+}
