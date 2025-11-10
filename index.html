@@ -1,8 +1,87 @@
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مساعد حبيبي 🤖</title>
 
-	createChat({
-		webhookUrl: 'https://n8n.srv984382.hstgr.cloud/webhook/596cf419-d403-4008-bc7e-0a13cd97ac08/chat'
-	});
-</script>
+  <!-- CSS الرسمي لشات n8n -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+  <style>
+    /* تعديل تصميم الشات لجعله جذاب */
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f6fa;
+    }
+
+    /* الحاوية الرئيسية للشات */
+    .n8n-chat {
+      position: fixed !important;
+      bottom: 0;
+      right: 20px;
+      width: 380px !important;
+      height: 550px !important;
+      border-radius: 16px 16px 0 0 !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
+      overflow: hidden !important;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    /* تغيير لون الهيدر */
+    .n8n-chat .n8n-chat-header {
+      background-color: #0078ff !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      font-size: 1.1rem !important;
+      text-align: center !important;
+    }
+
+    /* لون الرسائل */
+    .n8n-chat .n8n-message.bot {
+      background-color: #e2e5eb !important;
+      color: #333 !important;
+    }
+
+    .n8n-chat .n8n-message.user {
+      background-color: #0078ff !important;
+      color: #fff !important;
+    }
+
+    /* مربع الكتابة */
+    .n8n-chat .n8n-chat-input input {
+      border-radius: 10px !important;
+      border: 1px solid #ccc !important;
+      padding: 10px !important;
+    }
+
+    .n8n-chat .n8n-chat-input button {
+      background-color: #0078ff !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      border-radius: 10px !important;
+    }
+
+    .n8n-chat .n8n-chat-input button:hover {
+      background-color: #005fd1 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الكود الرسمي لشات n8n -->
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'https://n8n.srv984382.hstgr.cloud/webhook/596cf419-d403-4008-bc7e-0a13cd97ac08/chat',
+      title: 'مساعد حبيبي 🤖',
+      placeholder: 'اكتب رسالتك هنا...',
+      submitButtonText: 'إرسال',
+      openByDefault: true // الشات مفتوح دائمًا
+    });
+  </script>
+
+</body>
+</html>
