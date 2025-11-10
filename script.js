@@ -1,4 +1,4 @@
-// **تأكد من تحديث هذا الرابط بالرابط الخاص بك**
+﻿// **تأكد من تحديث هذا الرابط بالرابط الخاص بك**
 const YOUR_WEBHOOK_URL = 'https://n8n.srv984382.hstgr.cloud/webhook/596cf419-d403-4008-bc7e-0a13cd97ac08/chat';
 
 const chatBox = document.getElementById('chat-box');
