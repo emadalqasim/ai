@@ -1,4 +1,4 @@
-﻿/* أساسيات إعادة الضبط */
+/* أساسيات إعادة الضبط */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,23 +7,24 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7; /* خلفية فاتحة تشبه ChatGPT */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    background-color: #343541; /* خلفية داكنة جداً للـ body */
+    color: #ececf1; /* لون النص الأساسي */
 }
 
 /* حاوية الشات الرئيسية */
 .chat-container {
     width: 100%;
-    max-width: 800px; /* حجم أقصى مناسب للكمبيوتر */
-    height: 90vh; /* ارتفاع الشات */
+    max-width: 800px;
+    height: 90vh;
     max-height: 900px;
-    background-color: #ffffff;
+    background-color: #202123; /* خلفية حاوية الشات أغمق قليلاً من الـ body */
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -32,78 +33,122 @@ body {
 /* رأس الشات */
 .chat-header {
     padding: 15px;
-    background-color: #0b0c0f; /* لون غامق للرأس */
-    color: #ffffff;
+    background-color: #202123; /* نفس لون خلفية الحاوية */
+    color: #ececf1;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* فاصل خفيف */
+    font-size: 1.2em;
+    font-weight: 600;
 }
 
 /* منطقة عرض الرسائل */
 .chat-box {
     flex-grow: 1;
     padding: 20px;
-    overflow-y: auto; /* لجعل الرسائل قابلة للتمرير */
-    background-color: #ffffff;
+    overflow-y: auto;
+    background-color: #343541; /* خلفية منطقة الرسائل */
+    color: #ececf1;
+    /* شريط التمرير مخصص لمتصفحات Webkit */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #555 #343541; /* Firefox */
 }
+
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: #343541;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+    border: 2px solid #343541;
+}
+
 
 /* تنسيق الرسائل */
 .message {
     display: flex;
-    margin-bottom: 15px;
-    padding: 10px 15px;
+    margin-bottom: 20px; /* مسافة أكبر بين الرسائل */
+    padding: 15px 20px; /* مسافة داخلية أكبر */
     border-radius: 8px;
-    max-width: 80%;
-    line-height: 1.6;
+    max-width: 90%; /* مساحة أكبر للرسالة */
+    line-height: 1.7;
+    font-size: 1.05em;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* ظل خفيف للرسائل */
 }
 
+/* رسائل المستخدم */
 .user-message {
-    background-color: #4CAF50; /* لون رسائل المستخدم */
-    color: white;
-    margin-left: auto; /* لترتيب رسائل المستخدم على اليسار في التصميم العربي */
+    background-color: #3f4659; /* لون داكن قليلاً للمستخدم */
+    color: #ececf1;
+    margin-left: auto;
+    border-bottom-left-radius: 0; /* لجعل الزاوية الداخلية مربعة */
 }
 
+/* رسائل البوت */
 .bot-message {
-    background-color: #f0f0f0; /* لون رسائل البوت */
-    color: #333;
-    margin-right: auto; /* لترتيب رسائل البوت على اليمين في التصميم العربي */
+    background-color: #444654; /* لون أغمق للبوت */
+    color: #ececf1;
+    margin-right: auto;
+    border-bottom-right-radius: 0; /* لجعل الزاوية الداخلية مربعة */
 }
 
 /* حقل الإدخال */
 .chat-input {
     display: flex;
     padding: 15px;
-    border-top: 1px solid #eee;
-    background-color: #fff;
-    gap: 10px; /* مسافة بين العناصر */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #202123; /* نفس لون خلفية الحاوية */
+    gap: 10px;
+    align-items: center;
 }
 
 #user-input {
     flex-grow: 1;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 25px; /* شكل بيضاوي مثل شات جي بي تي */
+    padding: 14px 20px; /* مسافة داخلية أكبر */
+    border: 1px solid #555; /* حدود داكنة */
+    border-radius: 25px;
     font-size: 16px;
     outline: none;
-    transition: border-color 0.3s;
+    background-color: #40414f; /* خلفية حقل الإدخال */
+    color: #ececf1; /* لون النص المدخل */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#user-input::placeholder {
+    color: #888; /* لون النص في الـ placeholder */
 }
 
 #user-input:focus {
-    border-color: #4CAF50;
+    border-color: #56a7f2; /* لون أزرق عند التركيز */
+    box-shadow: 0 0 0 2px rgba(86, 167, 242, 0.3);
 }
 
 #send-button {
     padding: 12px 20px;
     border: none;
-    background-color: #4CAF50;
+    background-color: #56a7f2; /* زر إرسال أزرق */
     color: white;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.1em;
     transition: background-color 0.3s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px; /* حجم أدنى للزر */
+}
+
+#send-button i {
+    font-size: 1.2em;
 }
 
 #send-button:hover {
-    background-color: #45a049;
+    background-color: #4a90e2;
 }
 
 #send-button:active {
@@ -122,5 +167,13 @@ body {
 
     body {
         padding: 0;
+    }
+
+    .message {
+        max-width: 95%; /* مساحة أكبر للرسائل على الجوال */
+    }
+
+    .chat-header h3 {
+        font-size: 1.1em;
     }
 }
