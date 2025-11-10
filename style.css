@@ -1,44 +1,43 @@
-﻿/* أساسيات إعادة الضبط */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+﻿:root {
+    --primary-color: #4A90E2; /* أزرق عصري */
+    --secondary-color: #E0E0E0; /* رمادي فاتح للخلفية */
+    --background-color: #FFFFFF; /* خلفية بيضاء */
+    --text-color: #333333;
+    --border-radius: 12px;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Tajawal', sans-serif;
+    background-color: var(--secondary-color);
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
-    background-color: #343541; /* خلفية داكنة جداً للـ body */
-    color: #ececf1; /* لون النص الأساسي */
+    direction: rtl; /* لضمان اللغة العربية */
 }
 
-/* حاوية الشات الرئيسية */
 .chat-container {
+    background-color: var(--background-color);
     width: 100%;
-    max-width: 800px;
+    max-width: 650px; /* حجم الشاشة المثالي */
     height: 90vh;
-    max-height: 900px;
-    background-color: #202123; /* خلفية حاوية الشات أغمق قليلاً من الـ body */
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-height: 850px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
 }
 
-/* رأس الشات */
 .chat-header {
-    padding: 15px;
-    background-color: #202123; /* نفس لون خلفية الحاوية */
-    color: #ececf1;
+    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: white;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* فاصل خفيف */
-    font-size: 1.2em;
-    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* منطقة عرض الرسائل */
@@ -46,134 +45,131 @@ body {
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: #343541; /* خلفية منطقة الرسائل */
-    color: #ececf1;
-    /* شريط التمرير مخصص لمتصفحات Webkit */
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #555 #343541; /* Firefox */
+    scroll-behavior: smooth;
 }
 
-.chat-box::-webkit-scrollbar {
-    width: 8px;
-}
-
-.chat-box::-webkit-scrollbar-track {
-    background: #343541;
-}
-
-.chat-box::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 10px;
-    border: 2px solid #343541;
-}
-
-
-/* تنسيق الرسائل */
+/* نمط الرسائل المشترك */
 .message {
-    display: flex;
-    margin-bottom: 20px; /* مسافة أكبر بين الرسائل */
-    padding: 15px 20px; /* مسافة داخلية أكبر */
-    border-radius: 8px;
-    max-width: 90%; /* مساحة أكبر للرسالة */
-    line-height: 1.7;
-    font-size: 1.05em;
-    position: relative;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* ظل خفيف للرسائل */
+    max-width: 85%;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    line-height: 1.6;
+    word-wrap: break-word;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* رسائل المستخدم */
-.user-message {
-    background-color: #3f4659; /* لون داكن قليلاً للمستخدم */
-    color: #ececf1;
+/* رسائل البوت (Incoming) */
+.incoming {
+    background-color: #F0F4F9; /* لون فاتح وأنيق */
+    color: var(--text-color);
     margin-left: auto;
-    border-bottom-left-radius: 0; /* لجعل الزاوية الداخلية مربعة */
+    border-top-right-radius: 4px; /* زاوية مربعة قليلاً */
 }
 
-/* رسائل البوت */
-.bot-message {
-    background-color: #444654; /* لون أغمق للبوت */
-    color: #ececf1;
+/* رسائل المستخدم (Outgoing) */
+.outgoing {
+    background-color: var(--primary-color);
+    color: white;
     margin-right: auto;
-    border-bottom-right-radius: 0; /* لجعل الزاوية الداخلية مربعة */
+    border-top-left-radius: 4px; /* زاوية مربعة قليلاً */
 }
 
-/* حقل الإدخال */
-.chat-input {
+/* رسالة الترحيب الأولى */
+.initial-message {
+    background-color: #E6F3FF;
+    color: #004D99;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+/* منطقة الإدخال */
+.chat-input-area {
     display: flex;
-    padding: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: #202123; /* نفس لون خلفية الحاوية */
-    gap: 10px;
-    align-items: center;
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    background-color: var(--background-color);
 }
 
 #user-input {
     flex-grow: 1;
-    padding: 14px 20px; /* مسافة داخلية أكبر */
-    border: 1px solid #555; /* حدود داكنة */
+    padding: 10px 15px;
+    border: 1px solid #ddd;
     border-radius: 25px;
     font-size: 16px;
-    outline: none;
-    background-color: #40414f; /* خلفية حقل الإدخال */
-    color: #ececf1; /* لون النص المدخل */
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-#user-input::placeholder {
-    color: #888; /* لون النص في الـ placeholder */
+    resize: none; /* لمنع المستخدم من تغيير الحجم عمودياً */
+    max-height: 100px;
+    overflow-y: auto;
+    direction: rtl;
+    margin-left: 10px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s;
 }
 
 #user-input:focus {
-    border-color: #56a7f2; /* لون أزرق عند التركيز */
-    box-shadow: 0 0 0 2px rgba(86, 167, 242, 0.3);
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 #send-button {
-    padding: 12px 20px;
-    border: none;
-    background-color: #56a7f2; /* زر إرسال أزرق */
+    background-color: var(--primary-color);
     color: white;
-    border-radius: 25px;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s, transform 0.1s;
     display: flex;
-    align-items: center;
     justify-content: center;
-    min-width: 50px; /* حجم أدنى للزر */
-}
-
-#send-button i {
-    font-size: 1.2em;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.1s;
+    flex-shrink: 0;
 }
 
 #send-button:hover {
-    background-color: #4a90e2;
+    background-color: #3A7EC2;
 }
 
 #send-button:active {
-    transform: scale(0.98);
+    transform: scale(0.95);
 }
 
-/* التجاوب (Media Queries) */
-@media (max-width: 768px) {
+.footer-note {
+    text-align: center;
+    padding: 5px;
+    color: #999;
+    font-size: 12px;
+}
+
+/* تصميم رسالة "جاري الرد" */
+.bot-thinking {
+    background-color: #F7F7F7;
+    color: #666;
+    font-style: italic;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+/* استجابة الشاشة (للهواتف) */
+@media (max-width: 700px) {
     .chat-container {
-        width: 100%;
         height: 100vh;
-        max-width: none;
-        max-height: none;
         border-radius: 0;
+        max-width: 100%;
     }
-
-    body {
-        padding: 0;
+    .chat-header {
+        padding: 12px 15px;
     }
-
-    .message {
-        max-width: 95%; /* مساحة أكبر للرسائل على الجوال */
+    .chat-input-area {
+        padding: 10px 15px;
     }
-
-    .chat-header h3 {
-        font-size: 1.1em;
+    #user-input {
+        font-size: 15px;
     }
 }
